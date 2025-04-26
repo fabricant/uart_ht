@@ -36,6 +36,7 @@ void testTX()
 }
 void app_main()
 {
+    // setBaundRate(19200);
     initUARTTx();
     initUARTRx();
     xTaskCreate(testTX, "testTX", 4096, NULL, 5, NULL);

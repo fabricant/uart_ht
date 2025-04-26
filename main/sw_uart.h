@@ -3,8 +3,6 @@
 #include <stdint.h>
 void initUARTTx();
 void initUARTRx();
-void startRX();
-void stopRX();
 void uart_send(uint8_t data);
 void setBaundRate(uint16_t rate);
 void setTxPin(uint8_t pin);
