@@ -6,15 +6,12 @@
 #include "esp_task_wdt.h"
 #include "esp_timer.h"
 #include "esp_check.h"
-#include <time.h>
 #define MICRO_SECONDS 1000000
 static uint16_t baudRate = 9600;
 static uint8_t txPin = 5;
-static uint8_t rxPin = 6;
+static uint8_t rxPin = 7;
 static bool isRunning = false;
 #define bitTimeUs 1000000 / baudRate
-static const char *TAG = "SOFT_UART";
-
 
 uint8_t readByte()
 {
@@ -22,8 +19,6 @@ uint8_t readByte()
     uint8_t byte = 0;
     for (uint8_t i = 0; i < 8; ++i)
     {
-        // byte <<= 1;
-        // byte |= gpio_get_level(rxPin);
         byte |= gpio_get_level(rxPin) << i;
 
         ets_delay_us(bitTimeUs);
@@ -31,20 +26,20 @@ uint8_t readByte()
     return byte;
 }
 
+void uart_receive(uint8_t *byte)
+{
+    while (gpio_get_level(rxPin))
+    {
+        taskYIELD();
+    }
+
+    *byte = readByte();
+}
+
 void rxTask()
 {
-    esp_task_wdt_config_t config = {
-        .timeout_ms = 10000,
-        .idle_core_mask = (1 << 0),
-        .trigger_panic = false};
-    esp_task_wdt_reconfigure(&config);
-
-    esp_task_wdt_add(xTaskGetCurrentTaskHandle());
-    esp_task_wdt_delete(xTaskGetIdleTaskHandleForCPU(0));
     char buffer[128];
     uint8_t i = 0;
-    time_t startTime = time(NULL);
-
     while (isRunning)
     {
         if (gpio_get_level(rxPin))
@@ -65,18 +60,7 @@ void rxTask()
                 i = 0;
             }
         }
-        uint8_t seconds = (time(NULL) - startTime);
-        if (seconds >= 9)
-        {
-            startTime = time(NULL);
-            int err = esp_task_wdt_reset();
-            if (err != ESP_OK)
-            {
-                printf("error: %d\n", err);
-            }
-        }
     }
-    esp_task_wdt_delete(NULL);
 }
 
 void initUARTTx()

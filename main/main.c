@@ -4,23 +4,40 @@
 #include "freertos/task.h"
 #include "esp_task_wdt.h"
 
-void app_main() {
-    printf("baund rate = %d\n", getBaundRate());
-    // setBaundRate(123);
-    printf("new baund rate = %d\n", getBaundRate());
-    // initUARTTx();
-    initUARTRx();
-    startRX();
-    // while (1)   
-    // {
-    //     uart_send(65);
-    //     vTaskDelay(1000);
-    // }
-    
+void testRX()
+{
+    char buffer[128] = {0};
+    uint8_t i = 0;
+    uint8_t byte = 0;
+
+    while (true)
+    {
+        uart_receive(&byte);
+        buffer[i++] = byte;
+        // printf("byte %d\n", byte);
+        if (i == 128 || byte == '\n')
+        {
+            printf("Receive %s\n", buffer);
+            i = 0;
+        }
+    }
 }
 
-// esp_rom_gpio_pad_select_gpio
-// gpio_set_direction
-// gpio_set_level
-// gpio_config
-// gpio_config_t
+void testTX()
+{
+    uint8_t i = 0;
+
+    while (true)
+    {
+        uart_send(i);
+        printf("Send %d\n", i++);
+        vTaskDelay(pdMS_TO_TICKS(1000));
+    }
+}
+void app_main()
+{
+    initUARTTx();
+    initUARTRx();
+    xTaskCreate(testTX, "testTX", 4096, NULL, 5, NULL);
+    xTaskCreate(testRX, "testRX", 4096, NULL, 5, NULL);
+}
