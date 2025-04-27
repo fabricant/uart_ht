@@ -66,9 +66,10 @@ Sends test messages via SoftwareSerial and receives data
 ### Setup
 Hardware Connections
 
-Arduino:
+##### Arduino:
 * Pin 0 (RX) → Connect to ESP32's TX pin (default: pin 5)
 * Pin 11 (TX) → Connect to ESP32's RX pin (default: pin 7)
-ESP32:
+
+##### ESP32:
 * 5 (TX) Connect to Arduino's TX pin (default: pin 0)
 * 7 (RX) Connect to Arduino's RX pin (default: pin 11)
