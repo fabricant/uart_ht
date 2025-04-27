@@ -1,12 +1,12 @@
 # Software UART Implementation
 
-This project implements a software-based Universal Asynchronous Receiver-Transmitter (UART) communication protocol for ESP32 microcontrollers. It allows for serial communication without relying on dedicated hardware UART peripherals.
+This project implements a software-based Universal Asynchronous Receiver-Transmitter (UART) communication protocol for ESP32 microcontrollers. It allows for serial communication without relying on dedicated hardware UART pins.
 
 ## Overview
 
 The implementation consists of two main components:
 
-1. **ESP32 Software UART**: A custom implementation that handles both transmitting and receiving data using GPIO pins.
+1. **ESP32 Software UART**: A custom implementation that handles transmitting and receiving data using GPIO pins.
 2. **Arduino Interface**: A companion Arduino sketch that demonstrates communication with the ESP32 using Arduino's SoftwareSerial library.
 
 ## Features
