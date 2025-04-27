@@ -61,21 +61,14 @@ uart_receive(&byte);
 
 ### Arduino Side
 
-The Arduino sketch uses the SoftwareSerial library to communicate with the ESP32:
+Sends test messages via SoftwareSerial and receives data
 
-```arduino
-#include <SoftwareSerial.h>
-SoftwareSerial mySerial(10, 11);  // RX, TX
+### Setup
+Hardware Connections
 
-// Initialize in setup()
-mySerial.begin(9600);
-
-// Send data
-mySerial.println("Hello, world");
-
-// Receive data
-if (mySerial.available() > 0) {
-    int receivedByte = mySerial.read();
-    // Process received byte
-}
-```
+Arduino:
+* Pin 0 (RX) → Connect to ESP32's TX pin (default: pin 5)
+* Pin 11 (TX) → Connect to ESP32's RX pin (default: pin 7)
+ESP32:
+* 5 (TX) Connect to Arduino's TX pin (default: pin 0)
+* 7 (RX) Connect to Arduino's RX pin (default: pin 11)
