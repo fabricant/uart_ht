@@ -71,5 +71,5 @@ Hardware Connections
 * Pin 11 (TX) → Connect to ESP32's RX pin (default: pin 7)
 
 ##### ESP32:
-* 5 (TX) Connect to Arduino's TX pin (default: pin 0)
-* 7 (RX) Connect to Arduino's RX pin (default: pin 11)
+* Pin 5 (TX) Connect to Arduino's TX pin (default: pin 0)
+* Pin 7 (RX) Connect to Arduino's RX pin (default: pin 11)
