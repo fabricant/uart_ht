@@ -14,6 +14,7 @@ static uint16_t baudRate = 9600;
 static uint8_t txPin = 5;
 static uint8_t rxPin = 7;
 static uint32_t bitTimeUs = 0;
+#define TAG "SW_UART"
 uint8_t readByte()
 {
     ets_delay_us(bitTimeUs); // Skip start bit
@@ -31,6 +32,12 @@ uint8_t readByte()
 void uart_receive(uint8_t *byte)
 {
     // Wait for start bit (0)
+    if (!byte)
+    {
+        ESP_LOGE(TAG, "byte is NULL");
+        return;
+    }
+
     while (gpio_get_level(rxPin))
     {
         taskYIELD();
